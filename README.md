@@ -1,3 +1,23 @@
+# LynxOS v2 — Исправленная сборка
+
+## Что исправлено
+- `SigLevel = Never` в pacman.conf (больше не зависает на выборе)
+- Убран chaotic-aur из pacman.conf (устанавливается в хуке)
+- `syslinux` добавлен в пакеты
+- `mesa-vdpau` заменён на `libva-mesa-driver`
+- `adw-gtk3`, `visual-studio-code-bin`, `localsend-bin`, `yay` — собираются через makepkg в хуке
+- `qt5-webengine` убран (calamares не требует)
+- `linux-zen` корректно из репозитория extra
+
+## Новое в v2
+- btop, htop, fastfetch (с конфигом)
+- Полные мультимедийные кодеки (gst-plugins-*, ffmpeg, libva)
+- LocalSend — обмен файлами между устройствами
+- rclone — работа с облаком
+- Качественные шрифты (JetBrains Mono, Noto Fonts, Fira Code)
+- Welcome-приложение (Python/GTK4) с кнопками быстрых действий
+- yay — AUR-помощник
+- GRUB тема в стиле LynxOS
 
 ## Файлы
 | Файл | Назначение |

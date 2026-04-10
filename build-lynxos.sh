@@ -9,7 +9,8 @@ CYAN='\033[0;36m'; GREEN='\033[0;32m'; RED='\033[0;31m'
 YELLOW='\033[1;33m'; NC='\033[0m'
 
 BASE="$HOME/lynxos"
-WORK="/tmp/lynxos-work"
+# ~/build/lynxos-work вместо /tmp — не занимаем RAM
+WORK="$HOME/build/lynxos-work"
 OUT="$HOME/lynxos-output"
 
 echo -e "${CYAN}"
