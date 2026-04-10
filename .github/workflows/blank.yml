@@ -52,8 +52,7 @@ jobs:
           echo "Include = /etc/pacman.d/chaotic-mirrorlist" >> /etc/pacman.conf
 
           pacman -Syy
-
-    pacman -Syy
+          
       - name: Создание структуры проекта LynxOS
         run: |
           chmod +x setup-lynxos.sh
