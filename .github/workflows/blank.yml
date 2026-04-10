@@ -1,0 +1,103 @@
+name: Build LynxOS ISO
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: archlinux:latest
+      options: --privileged
+
+    steps:
+      - name: Checkout репозитория
+        uses: actions/checkout@v4
+
+      - name: Инициализация связки ключей pacman
+        run: |
+          pacman-key --init
+          pacman-key --populate archlinux
+
+      - name: Обновление системы и установка зависимостей
+        run: |
+          pacman -Syu --noconfirm --needed \
+            archiso \
+            git \
+            inkscape \
+            python \
+            squashfs-tools \
+            dosfstools \
+            libisoburn
+
+      - name: Создание структуры проекта LynxOS
+        run: |
+          chmod +x setup-lynxos.sh
+          bash setup-lynxos.sh
+
+      - name: Сборка ISO
+        run: |
+          mkdir -p $HOME/build/lynxos-work
+          mkdir -p $HOME/lynxos-output
+          mkarchiso -v \
+            -w $HOME/build/lynxos-work \
+            -o $HOME/lynxos-output \
+            $HOME/lynxos
+
+      - name: Получение имени ISO и контрольной суммы
+        id: iso_info
+        run: |
+          ISO=$(ls $HOME/lynxos-output/*.iso | head -1)
+          echo "iso_path=$ISO" >> $GITHUB_OUTPUT
+          echo "iso_name=$(basename $ISO)" >> $GITHUB_OUTPUT
+          md5sum "$ISO" > "$ISO.md5"
+          sha256sum "$ISO" > "$ISO.sha256"
+
+      - name: Загрузка ISO как артефакт
+        uses: actions/upload-artifact@v4
+        with:
+          name: lynxos-iso
+          path: |
+            ${{ steps.iso_info.outputs.iso_path }}
+            ${{ steps.iso_info.outputs.iso_path }}.md5
+            ${{ steps.iso_info.outputs.iso_path }}.sha256
+          retention-days: 7
+
+      - name: Создание релиза (только при пуше в main)
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0-${{ github.run_number }}
+          name: LynxOS 1.0 Build ${{ github.run_number }}
+          body: |
+            ## LynxOS 1.0 — Автосборка #${{ github.run_number }}
+
+            **Коммит:** ${{ github.sha }}
+            **Дата:** ${{ github.event.head_commit.timestamp }}
+
+            ### Что внутри
+            - GNOME (полный) + тёмная тема, акцент teal
+            - Ядро linux66
+            - GRUB + os-prober (Windows определяется автоматически)
+            - Steam, Lutris, Wine, MangoHUD
+            - VS Code, yay, btop, htop, fastfetch
+            - LocalSend, rclone
+            - Полные мультимедийные кодеки
+            - Автоопределение GPU (AMD / NVIDIA / Intel)
+            - Live-режим (liveuser / liveuser)
+            - Установщик Calamares
+
+            ### Запись на USB
+            ```bash
+            sudo dd if=lynxos-*.iso of=/dev/sdX bs=4M status=progress && sync
+            ```
+          files: |
+            ${{ steps.iso_info.outputs.iso_path }}
+            ${{ steps.iso_info.outputs.iso_path }}.md5
+            ${{ steps.iso_info.outputs.iso_path }}.sha256
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
