@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="95" fill="#0d1117" stroke="#00bcd4" stroke-width="2.5"/>
+
+  <!-- Ears -->
+  <polygon points="55,72 45,38 75,58" fill="#1a2332"/>
+  <polygon points="145,72 155,38 125,58" fill="#1a2332"/>
+  <!-- Ear tufts -->
+  <polygon points="57,68 50,42 70,60" fill="#00bcd4" opacity="0.7"/>
+  <polygon points="143,68 150,42 130,60" fill="#00bcd4" opacity="0.7"/>
+
+  <!-- Head shape -->
+  <ellipse cx="100" cy="105" rx="52" ry="48" fill="#1a2332"/>
+
+  <!-- Face markings -->
+  <ellipse cx="100" cy="108" rx="38" ry="36" fill="#1e2d40"/>
+
+  <!-- Eyes -->
+  <!-- Left eye -->
+  <ellipse cx="82" cy="97" rx="11" ry="9" fill="#0a0f1a"/>
+  <ellipse cx="82" cy="97" rx="9" ry="7" fill="#00e5ff" opacity="0.9"/>
+  <ellipse cx="82" cy="97" rx="4" ry="6" fill="#001a20"/>
+  <circle cx="85" cy="94" r="2" fill="white" opacity="0.8"/>
+  <!-- Right eye -->
+  <ellipse cx="118" cy="97" rx="11" ry="9" fill="#0a0f1a"/>
+  <ellipse cx="118" cy="97" rx="9" ry="7" fill="#00e5ff" opacity="0.9"/>
+  <ellipse cx="118" cy="97" rx="4" ry="6" fill="#001a20"/>
+  <circle cx="121" cy="94" r="2" fill="white" opacity="0.8"/>
+
+  <!-- Nose -->
+  <polygon points="100,112 95,118 105,118" fill="#00bcd4" opacity="0.9"/>
+
+  <!-- Mouth -->
+  <path d="M95,118 Q100,124 105,118" stroke="#00bcd4" stroke-width="1.5" fill="none" opacity="0.7"/>
+
+  <!-- Whiskers left -->
+  <line x1="60" y1="113" x2="92" y2="117" stroke="#4dd0e1" stroke-width="1" opacity="0.6"/>
+  <line x1="58" y1="119" x2="92" y2="120" stroke="#4dd0e1" stroke-width="1" opacity="0.6"/>
+  <line x1="62" y1="125" x2="92" y2="123" stroke="#4dd0e1" stroke-width="1" opacity="0.6"/>
+  <!-- Whiskers right -->
+  <line x1="140" y1="113" x2="108" y2="117" stroke="#4dd0e1" stroke-width="1" opacity="0.6"/>
+  <line x1="142" y1="119" x2="108" y2="120" stroke="#4dd0e1" stroke-width="1" opacity="0.6"/>
+  <line x1="138" y1="125" x2="108" y2="123" stroke="#4dd0e1" stroke-width="1" opacity="0.6"/>
+
+  <!-- Forehead marking -->
+  <path d="M92,78 Q100,72 108,78 Q104,85 100,84 Q96,85 92,78Z" fill="#00bcd4" opacity="0.25"/>
+
+  <!-- Text -->
+  <text x="100" y="168" text-anchor="middle"
+        font-family="'Courier New', monospace"
+        font-size="18" font-weight="bold" letter-spacing="4"
+        fill="#00bcd4">LYNX<tspan fill="#4dd0e1">OS</tspan></text>
+
+  <!-- Outer glow ring -->
+  <circle cx="100" cy="100" r="94" fill="none" stroke="#00bcd4" stroke-width="0.5" opacity="0.4"/>
+</svg>

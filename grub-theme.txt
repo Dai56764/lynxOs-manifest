@@ -1,0 +1,72 @@
+# LynxOS GRUB Theme
+# Файл: /boot/grub/themes/lynxos/theme.txt
+
+title-text: ""
+desktop-color: "#0d1117"
+desktop-image: "background.png"
+
++ label {
+    top = 30%
+    left = 50%-150
+    width = 300
+    height = 60
+    text = "LynxOS"
+    color = "#00bcd4"
+    font = "DejaVu Sans Bold 36"
+    align = "center"
+}
+
++ label {
+    top = 42%
+    left = 50%-150
+    width = 300
+    height = 24
+    text = "Выберите систему для загрузки"
+    color = "#4dd0e1"
+    font = "DejaVu Sans 14"
+    align = "center"
+}
+
+# Меню
++ boot_menu {
+    top = 47%
+    left = 50%-220
+    width = 440
+    height = 200
+
+    item_font = "DejaVu Sans 14"
+    item_color = "#8b949e"
+    selected_item_color = "#00bcd4"
+
+    item_height = 36
+    item_padding = 14
+    item_spacing = 4
+
+    selected_item_pixmap_style = "select_*.png"
+    menu_pixmap_style = "menu_*.png"
+}
+
+# Таймер
++ label {
+    top = 82%
+    left = 50%-150
+    width = 300
+    height = 20
+    id = "__timeout__"
+    text = "Автозагрузка через %d сек."
+    color = "#4dd0e1"
+    font = "DejaVu Sans 12"
+    align = "center"
+}
+
+# Подсказки
++ label {
+    top = 88%
+    left = 50%-200
+    width = 400
+    height = 20
+    text = "↑↓ — выбор    Enter — загрузить    e — редактировать"
+    color = "#30363d"
+    font = "DejaVu Sans 12"
+    align = "center"
+}
