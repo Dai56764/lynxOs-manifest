@@ -32,12 +32,29 @@ jobs:
             python \
             squashfs-tools \
             dosfstools \
-            libisoburn
+            libisoburn \
+            grub \
+            efibootmgr \
+            mtools \
+            memtest86+ \
+            memtest86+-efi \
+            edk2-shell
 
       - name: Создание структуры проекта LynxOS
         run: |
           chmod +x setup-lynxos.sh
           bash setup-lynxos.sh
+
+      - name: Патч profiledef.sh — исправление устаревших bootmodes
+        run: |
+          PROF="$HOME/lynxos/profiledef.sh"
+          # Заменяем устаревшие режимы на актуальные
+          sed -i "s/'bios.syslinux.mbr'/'bios.syslinux'/g"  "$PROF"
+          sed -i "/'bios.syslinux.eltorito'/d"               "$PROF"
+          sed -i "s/'uefi-x64.grub.esp'/'uefi.grub'/g"      "$PROF"
+          sed -i "/'uefi-x64.grub.eltorito'/d"               "$PROF"
+          echo "=== profiledef.sh после патча ==="
+          cat "$PROF"
 
       - name: Сборка ISO
         run: |
