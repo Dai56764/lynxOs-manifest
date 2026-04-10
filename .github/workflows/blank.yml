@@ -42,6 +42,7 @@ jobs:
 
       - name: Подключение Chaotic-AUR (фикс ключей)
         run: |
+          SigLevel = Never
           pacman -Sy --noconfirm archlinux-keyring
 
           pacman-key --init
