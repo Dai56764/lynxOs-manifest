@@ -102,9 +102,6 @@ Include = /etc/pacman.d/mirrorlist
 
 [multilib]
 Include = /etc/pacman.d/mirrorlist
-
-[community]
-Include = /etc/pacman.d/mirrorlist
 EOF
 ok "pacman.conf создан (SigLevel=Never, без chaotic-aur в списке)"
 
