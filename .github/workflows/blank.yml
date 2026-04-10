@@ -50,7 +50,7 @@ jobs:
           pacman-key --recv-key FBA220DFC880C036 --keyserver hkps://keyserver.ubuntu.com
           pacman-key --lsign-key FBA220DFC880C036
 
-          pacman -U --noconfirm --needed https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst
+          pacman -U --noconfirm --needed --overwrite '*' https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst
           pacman -U --noconfirm --needed https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst
 
           echo "[chaotic-aur]" >> /etc/pacman.conf
@@ -58,7 +58,7 @@ jobs:
 
           pacman -Syy --noconfirm
 
-          
+
       - name: Создание структуры проекта LynxOS
         run: |
           chmod +x setup-lynxos.sh
