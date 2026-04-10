@@ -40,18 +40,24 @@ jobs:
             memtest86+-efi \
             edk2-shell
 
-      - name: Подключение Chaotic-AUR (для Calamares)
+      - name: Подключение Chaotic-AUR (фикс ключей)
         run: |
+          pacman -Sy --noconfirm archlinux-keyring
+
+          pacman-key --init
+          pacman-key --populate archlinux
+
           pacman-key --recv-key FBA220DFC880C036 --keyserver hkps://keyserver.ubuntu.com
           pacman-key --lsign-key FBA220DFC880C036
 
-          pacman -U --noconfirm https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst
-          pacman -U --noconfirm https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst
+          pacman -U --noconfirm --needed https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst
+          pacman -U --noconfirm --needed https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst
 
           echo "[chaotic-aur]" >> /etc/pacman.conf
           echo "Include = /etc/pacman.d/chaotic-mirrorlist" >> /etc/pacman.conf
 
-          pacman -Syy
+          pacman -Syy --noconfirm
+
           
       - name: Создание структуры проекта LynxOS
         run: |
