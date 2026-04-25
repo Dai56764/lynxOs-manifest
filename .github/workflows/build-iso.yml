@@ -1,0 +1,117 @@
+name: Build LynxOS ISO
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+    inputs:
+      enable_aur:
+        description: "Build optional AUR packages inside the ISO"
+        required: false
+        default: "false"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    env:
+      CI_HOME: ${{ github.workspace }}/.ci-home
+      ENABLE_AUR: ${{ github.event.inputs.enable_aur || 'false' }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/lib/android || true
+          docker system prune -af || true
+          df -h
+
+      - name: Build ISO in Arch Linux container
+        run: |
+          mkdir -p "$CI_HOME"
+          docker run --rm --privileged \
+            -e HOME=/work/.ci-home \
+            -e LYNXOS_ENABLE_AUR="$ENABLE_AUR" \
+            -v "${{ github.workspace }}:/work" \
+            archlinux:latest \
+            /bin/bash -lc '
+              set -euxo pipefail
+              pacman -Sy --noconfirm archlinux-keyring
+              pacman -Syu --noconfirm --needed \
+                archiso \
+                base-devel \
+                dosfstools \
+                efibootmgr \
+                git \
+                grub \
+                inkscape \
+                libisoburn \
+                mtools \
+                python \
+                squashfs-tools \
+                sudo \
+                xorriso
+              cd /work
+              bash setup-lynxos.sh
+              bash build-lynxos.sh
+            '
+
+      - name: Collect ISO metadata
+        id: iso_info
+        shell: bash
+        run: |
+          shopt -s nullglob
+          files=("$CI_HOME/lynxos-output"/lynxos-*.iso)
+          if [ "${#files[@]}" -eq 0 ]; then
+            echo "No ISO file was produced" >&2
+            exit 1
+          fi
+
+          iso="${files[0]}"
+          md5sum "$iso" > "$iso.md5"
+          sha256sum "$iso" > "$iso.sha256"
+
+          echo "iso_path=$iso" >> "$GITHUB_OUTPUT"
+          echo "iso_name=$(basename "$iso")" >> "$GITHUB_OUTPUT"
+
+      - name: Upload ISO artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: lynxos-iso
+          path: |
+            ${{ steps.iso_info.outputs.iso_path }}
+            ${{ steps.iso_info.outputs.iso_path }}.md5
+            ${{ steps.iso_info.outputs.iso_path }}.sha256
+          retention-days: 7
+
+      - name: Create GitHub release
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0-${{ github.run_number }}
+          name: LynxOS 1.0 Build ${{ github.run_number }}
+          body: |
+            ## LynxOS 1.0 automated build #${{ github.run_number }}
+
+            Commit: `${{ github.sha }}`
+            AUR packages enabled: `${{ env.ENABLE_AUR }}`
+
+            Included:
+            - GNOME desktop with Calamares installer
+            - linux-zen kernel
+            - gaming stack with Steam, Lutris and Wine
+            - multimedia codecs and GPU autodetection helpers
+            - checksums for artifact verification
+          files: |
+            ${{ steps.iso_info.outputs.iso_path }}
+            ${{ steps.iso_info.outputs.iso_path }}.md5
+            ${{ steps.iso_info.outputs.iso_path }}.sha256
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
