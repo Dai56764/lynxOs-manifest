@@ -1,53 +1,35 @@
-# LynxOS v2 — Исправленная сборка
+# LynxOS
 
-## Что исправлено
-- `SigLevel = Never` в pacman.conf (больше не зависает на выборе)
-- Убран chaotic-aur из pacman.conf (устанавливается в хуке)
-- `syslinux` добавлен в пакеты
-- `mesa-vdpau` заменён на `libva-mesa-driver`
-- `adw-gtk3`, `visual-studio-code-bin`, `localsend-bin`, `yay` — собираются через makepkg в хуке
-- `qt5-webengine` убран (calamares не требует)
-- `linux-zen` корректно из репозитория extra
+LynxOS is a custom Arch-based Linux distribution project that generates an ISO image with GNOME, Calamares, gaming packages, multimedia codecs and custom branding.
 
-## Новое в v2
-- btop, htop, fastfetch (с конфигом)
-- Полные мультимедийные кодеки (gst-plugins-*, ffmpeg, libva)
-- LocalSend — обмен файлами между устройствами
-- rclone — работа с облаком
-- Качественные шрифты (JetBrains Mono, Noto Fonts, Fira Code)
-- Welcome-приложение (Python/GTK4) с кнопками быстрых действий
-- yay — AUR-помощник
-- GRUB тема в стиле LynxOS
+## Repository layout
 
-## Файлы
-| Файл | Назначение |
-|---|---|
-| `setup-lynxos.sh` | Создаёт структуру проекта |
-| `build-lynxos.sh` | Собирает ISO |
-| `lynxos-logo.svg` | Логотип рысь |
-| `grub-theme.txt` | Тема GRUB |
+- `setup-lynxos.sh` creates the ArchISO profile under `$HOME/lynxos`
+- `build-lynxos.sh` builds the final ISO into `$HOME/lynxos-output`
+- `.github/workflows/build-iso.yml` builds the project on GitHub Actions
+- `docs/wiki/` contains the starter wiki content for the project
 
-## Запуск
+## Local build
+
+Run the project on an Arch-based host:
+
 ```bash
-# На Arch Linux / Manjaro / EndeavourOS:
 chmod +x setup-lynxos.sh build-lynxos.sh
 bash setup-lynxos.sh
 bash build-lynxos.sh
 ```
 
-## Требования
-- Arch Linux / Manjaro / EndeavourOS (хост)
-- RAM: 8 GB
-- Место: ~35 GB свободно
-- Интернет: обязателен
+## GitHub build
 
-## Учётные данные Live
-- Пользователь: `liveuser`
-- Пароль: `liveuser`
-- sudo без пароля
+The GitHub Actions workflow:
 
-## Тест без флешки
-```bash
-sudo pacman -S qemu-full
-qemu-system-x86_64 -m 4G -cdrom ~/lynxos-output/lynxos-*.iso -boot d -enable-kvm -vga virtio
-```
+- runs on `push`, `pull_request` and `workflow_dispatch`
+- builds inside an Arch Linux Docker container
+- uploads the ISO and checksum files as artifacts
+- creates a GitHub release on pushes to `main` or `master`
+
+See [docs/wiki/Build-on-GitHub.md](docs/wiki/Build-on-GitHub.md) for details.
+
+## Important note
+
+The current scripts are written for Arch-based environments. Running the build outside Arch, or on a runner without enough disk space, will still fail even with a correct workflow.
