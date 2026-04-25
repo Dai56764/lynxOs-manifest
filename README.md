@@ -1,6 +1,6 @@
 # LynxOS
 
-LynxOS is a custom Arch-based Linux distribution project that generates an ISO image with GNOME, Calamares, gaming packages, multimedia codecs and custom branding.
+LynxOS is a custom Arch-based Linux distribution project that generates an ISO image with GNOME, archinstall, gaming packages, multimedia codecs and custom branding.
 
 ## Repository layout
 
