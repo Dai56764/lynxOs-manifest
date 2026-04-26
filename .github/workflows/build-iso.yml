@@ -108,15 +108,11 @@ jobs:
             AUR packages enabled: `${{ env.ENABLE_AUR }}`
 
             Included:
-            - GNOME desktop with archinstall
+            - GNOME desktop with archinstall launcher
             - linux-zen kernel
             - gaming stack with Steam, Lutris and Wine
             - multimedia codecs and GPU autodetection helpers
             - checksums for artifact verification
-
-            Note:
-            - The ISO is available as a GitHub Actions artifact for this run.
-            - Only checksum files are attached to the GitHub Release because release assets are limited to 2 GiB.
           files: |
             ${{ steps.iso_info.outputs.iso_path }}.md5
             ${{ steps.iso_info.outputs.iso_path }}.sha256
