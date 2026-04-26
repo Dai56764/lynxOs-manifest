@@ -1,6 +1,6 @@
 # LynxOS
 
-LynxOS is a custom Arch-based Linux distribution project that generates an ISO image with GNOME, archinstall, gaming packages, multimedia codecs and custom branding.
+LynxOS is a custom Arch-based Linux distribution project that generates an ISO image with GNOME, archinstall, Timeshift, Google Chrome support, multimedia codecs and custom branding.
 
 ## Repository layout
 
@@ -30,6 +30,15 @@ The GitHub Actions workflow:
 
 See [docs/wiki/Build-on-GitHub.md](docs/wiki/Build-on-GitHub.md) for details.
 
+## Update model
+
+- system packages are updated through `pacman -Syu`
+- the generated image sets `ParallelDownloads = 10` in `pacman.conf`
+- `lynx-system-update` refreshes mirrors, upgrades the system and checks whether a newer LynxOS release exists
+- a fresh ISO is intended for reinstall or recovery, not for in-place replacement of the running system
+
 ## Important note
 
 The current scripts are written for Arch-based environments. Running the build outside Arch, or on a runner without enough disk space, will still fail even with a correct workflow.
+
+ARM64 is not part of the current build pipeline. This repository builds an `x86_64` ArchISO; a real `aarch64` release would need a separate Arch Linux ARM build flow rather than a small workflow tweak.
