@@ -19,11 +19,16 @@ warn() { echo -e "${YELLOW}[ WARN ]${NC} $1"; }
 err() { echo -e "${RED}[ ERR  ]${NC} $1"; exit 1; }
 
 info "Installing archiso build dependencies..."
-sudo pacman -S --noconfirm --needed archiso inkscape python git >/dev/null 2>&1 || true
+sudo pacman -S --noconfirm --needed archiso inkscape python git reflector >/dev/null 2>&1 || true
 
 BASE="$HOME/lynxos"
 BUILDDIR="$HOME/build"
 ENABLE_AUR="${LYNXOS_ENABLE_AUR:-false}"
+
+info "Generating fresh mirrorlist for ArchISO build..."
+sudo reflector --latest 20 --sort rate --protocol https --save /etc/pacman.d/mirrorlist >/dev/null 2>&1 || true
+mkdir -p "$HOME/.cache/lynxos"
+cp /etc/pacman.d/mirrorlist "$HOME/.cache/lynxos/mirrorlist" 2>/dev/null || true
 
 mkdir -p "$BUILDDIR"
 info "Working directory: $BUILDDIR"
@@ -34,6 +39,9 @@ if [ -d "$BASE" ]; then
 fi
 
 cp -r /usr/share/archiso/configs/releng/ "$BASE"
+cp /etc/pacman.d/mirrorlist "$BASE/pacman.d/mirrorlist" 2>/dev/null || true
+mkdir -p "$BASE/airootfs/etc/pacman.d"
+cp /etc/pacman.d/mirrorlist "$BASE/airootfs/etc/pacman.d/mirrorlist" 2>/dev/null || true
 cd "$BASE"
 
 mkdir -p airootfs/etc/skel/Desktop

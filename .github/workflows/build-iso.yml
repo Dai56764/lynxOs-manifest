@@ -55,6 +55,7 @@ jobs:
                 libisoburn \
                 mtools \
                 python \
+                reflector \
                 squashfs-tools \
                 sudo \
                 xorriso
