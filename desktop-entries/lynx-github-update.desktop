@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=LynxOS GitHub Update
+Name[ru]=Обновление LynxOS
+Comment=Check and download updates from GitHub
+Comment[ru]=Проверить и загрузить обновления с GitHub
+Exec=gnome-terminal -- bash -lc 'lynx-github-update; exec bash'
+Icon=software-update-available
+Terminal=false
+Categories=System;Settings;
+StartupNotify=true

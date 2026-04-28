@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=LynxOS ISO Tool
+Name[ru]=Инструмент ISO
+Comment=Manage ISO images - write to USB, test in QEMU
+Comment[ru]=Управление ISO - запись на USB, тестирование в QEMU
+Exec=gnome-terminal -- bash -lc 'lynx-iso-tool; exec bash'
+Icon=media-cdrom
+Terminal=false
+Categories=System;Utilities;
+StartupNotify=true

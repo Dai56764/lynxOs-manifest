@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=LynxOS Recommended Apps
+Name[ru]=Рекомендуемые приложения
+Comment=Install recommended applications for LynxOS
+Comment[ru]=Установить рекомендуемые приложения
+Exec=gnome-terminal -- bash -lc 'lynx-recommended-apps; exec bash'
+Icon=application-x-executable
+Terminal=false
+Categories=System;Settings;
+StartupNotify=true
