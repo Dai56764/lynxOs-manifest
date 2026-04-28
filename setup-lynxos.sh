@@ -27,7 +27,10 @@ BUILDDIR="$HOME/build"
 ENABLE_AUR="${LYNXOS_ENABLE_AUR:-false}"
 
 info "Generating fresh mirrorlist for ArchISO build..."
-sudo reflector --latest 20 --sort rate --protocol https --save /etc/pacman.d/mirrorlist
+sudo reflector --latest 20 --sort rate --protocol https --country 'United States, Canada, Germany, Netherlands, France' --age 12 --save /etc/pacman.d/mirrorlist
+if [ ! -s /etc/pacman.d/mirrorlist ]; then
+  err "Mirrorlist generation failed"
+fi
 mkdir -p "$HOME/.cache/lynxos"
 cp /etc/pacman.d/mirrorlist "$HOME/.cache/lynxos/mirrorlist"
 
