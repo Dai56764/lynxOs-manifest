@@ -93,6 +93,9 @@ Include = /etc/pacman.d/mirrorlist
 [extra]
 Include = /etc/pacman.d/mirrorlist
 
+[community]
+Include = /etc/pacman.d/mirrorlist
+
 [multilib]
 Include = /etc/pacman.d/mirrorlist
 EOF
@@ -154,7 +157,7 @@ xdg-user-dirs
 # ═══════════════════════════════════════════════════════════
 calamares
 kpmcore
-partition-manager
+partitionmanager
 
 # ═══════════════════════════════════════════════════════════
 #  ТЕКСТОВЫЕ РЕДАКТОРЫ И УТИЛИТЫ
@@ -216,7 +219,6 @@ vulkan-icd-loader
 libva
 libva-utils
 libvdpau
-vaapi-amf
 libxvmc
 
 # ═══════════════════════════════════════════════════════════
@@ -231,14 +233,13 @@ intel-gpu-tools
 nvidia
 nvidia-utils
 nvidia-settings
-cuda-libs
+cuda
 
 # AMD
 xf86-video-amdgpu
 libva-mesa-driver
 mesa-vdpau
 amdvlk
-amf-amdappsdk
 
 # ═══════════════════════════════════════════════════════════
 #  ПЕРЕКЛЮЧАТЕЛЬ ВИДЕОКАРТ
@@ -257,7 +258,7 @@ inxi
 hwinfo
 dmidecode
 acpi
-sensors
+lm_sensors
 cpupower
 
 # ═══════════════════════════════════════════════════════════
