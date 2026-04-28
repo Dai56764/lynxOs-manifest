@@ -102,17 +102,59 @@ jobs:
           tag_name: v1.0-${{ github.run_number }}
           name: LynxOS 1.0 Build ${{ github.run_number }}
           body: |
-            ## LynxOS 1.0 automated build #${{ github.run_number }}
+            ## LynxOS 1.0 — Автоматизированная сборка #${{ github.run_number }}
 
-            Commit: `${{ github.sha }}`
-            AUR packages enabled: `${{ env.ENABLE_AUR }}`
+            **Коммит**: `${{ github.sha }}`  
+            **AUR пакеты**: `${{ env.ENABLE_AUR }}`  
+            **Дата сборки**: ${{ github.event.head_commit.timestamp }}
 
-            Included:
-            - GNOME desktop with archinstall launcher
-            - linux-zen kernel
-            - gaming stack with Steam, Lutris and Wine
-            - multimedia codecs and GPU autodetection helpers
-            - checksums for artifact verification
+            ### 🎯 Особенности
+
+            ✅ **Окружение рабочего стола**
+            - GNOME Desktop с расширениями
+            - Calamares — графический установщик
+            - GDM менеджер сеансов
+
+            ✅ **Ядро и оборудование**
+            - Linux-zen (оптимизированное ядро)
+            - Поддержка Intel, NVIDIA, AMD видеокарт
+            - Switcheroo-control для переключения видеокарт
+
+            ✅ **Разработка**
+            - GCC, Clang, LLVM компиляторы
+            - Python 3, Git, CMake, Make
+            - base-devel с полным набором инструментов
+
+            ✅ **Инструменты обновления**
+            - `lynx-system-update` — обновление пакетов
+            - `lynx-github-update` — обновления через GitHub
+            - `lynx-iso-tool` — работа с ISO (запись на USB, QEMU)
+
+            ✅ **Приложения и мультимедиа**
+            - Рекомендуемые приложения (VLC, VSCode, LibreOffice и др.)
+            - PipeWire аудиосервер
+            - Полная поддержка мультимедиа
+
+            ### 📥 Загрузка и установка
+
+            ```bash
+            # Проверить контрольную сумму
+            sha256sum -c lynxos-x86_64.iso.sha256
+
+            # Записать на USB флешку
+            sudo dd if=lynxos-x86_64.iso of=/dev/sdX bs=4M status=progress && sync
+
+            # Или использовать lynx-iso-tool после установки
+            lynx-iso-tool write-dd lynxos-x86_64.iso /dev/sdX
+            ```
+
+            ### 📖 Документация
+
+            - [Home](https://github.com/Dai56764/lynxOs-manifest/wiki)
+            - [Build-on-GitHub](https://github.com/Dai56764/lynxOs-manifest/wiki/Build-on-GitHub)
+            - [Project Structure](https://github.com/Dai56764/lynxOs-manifest/wiki/Project-Structure)
+
+            Версия: 1.0 | Статус: Rolling Release
           files: |
             ${{ steps.iso_info.outputs.iso_path }}.md5
             ${{ steps.iso_info.outputs.iso_path }}.sha256
