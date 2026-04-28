@@ -311,6 +311,9 @@ LOGO=lynxos-logo
 EOF
 ok "Identity files created"
 
+mkdir -p airootfs/etc/default
+mkdir -p airootfs/etc/gdm
+
 cat > airootfs/etc/default/grub <<'EOF'
 GRUB_DEFAULT=0
 GRUB_TIMEOUT=5
