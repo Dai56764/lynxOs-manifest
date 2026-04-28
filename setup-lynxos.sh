@@ -99,39 +99,107 @@ EOF
 ok "pacman.conf created"
 
 cat > packages.x86_64 <<'EOF'
+# ═══════════════════════════════════════════════════════════
+#  БАЗОВЫЕ КОМПОНЕНТЫ
+# ═══════════════════════════════════════════════════════════
 base
 base-devel
-linux
-linux-headers
+sudo
+linux-zen
+linux-zen-headers
 linux-firmware
 amd-ucode
 intel-ucode
-archinstall
-bash-completion
-blueman
-bluez
-bluez-utils
-btop
-curl
+
+# ═══════════════════════════════════════════════════════════
+#  ЗАГРУЗЧИК И РАЗДЕЛЫ
+# ═══════════════════════════════════════════════════════════
+grub
+efibootmgr
+parted
+gptfdisk
+os-prober
 dosfstools
 e2fsprogs
-efibootmgr
 exfatprogs
-fastfetch
-ffmpeg
-file-roller
-firefox
+mtools
+ntfs-3g
+
+# ═══════════════════════════════════════════════════════════
+#  СЕТЬ И КОММУНИКАЦИЯ
+# ═══════════════════════════════════════════════════════════
+networkmanager
+network-manager-applet
+curl
+wget
+
+# ═══════════════════════════════════════════════════════════
+#  ОКРУЖЕНИЕ GNOME
+# ═══════════════════════════════════════════════════════════
 gdm
-git
 gnome
-gnome-browser-connector
 gnome-console
-gnome-disk-utility
+gnome-shell
 gnome-shell-extensions
+gnome-tweaks
 gnome-system-monitor
 gnome-text-editor
-gnome-tweaks
-grub
+gnome-disk-utility
+gnome-browser-connector
+xdg-desktop-portal-gnome
+xdg-user-dirs
+
+# ═══════════════════════════════════════════════════════════
+#  УСТАНОВЩИК (Calamares)
+# ═══════════════════════════════════════════════════════════
+calamares
+kpmcore
+partition-manager
+
+# ═══════════════════════════════════════════════════════════
+#  ТЕКСТОВЫЕ РЕДАКТОРЫ И УТИЛИТЫ
+# ═══════════════════════════════════════════════════════════
+nano
+vim
+bash-completion
+
+# ═══════════════════════════════════════════════════════════
+#  ВЕРСИОННЫЙ КОНТРОЛЬ И РАЗВИТИЕ
+# ═══════════════════════════════════════════════════════════
+git
+python
+python-pip
+gcc
+gdb
+make
+cmake
+clang
+llvm
+
+# ═══════════════════════════════════════════════════════════
+#  ШРИФТЫ (качественные)
+# ═══════════════════════════════════════════════════════════
+noto-fonts
+noto-fonts-emoji
+noto-fonts-cjk
+ttf-liberation
+ttf-dejavu
+ttf-jetbrains-mono
+ttf-fira-code
+ttf-fira-sans
+cantarell-fonts
+ttf-opensans
+
+# ═══════════════════════════════════════════════════════════
+#  АУДИО И МУЛЬТИМЕДИА
+# ═══════════════════════════════════════════════════════════
+pipewire
+pipewire-alsa
+pipewire-pulse
+pipewire-jack
+wireplumber
+pavucontrol
+ffmpeg
 gstreamer
 gst-libav
 gst-plugin-pipewire
@@ -139,46 +207,92 @@ gst-plugins-bad
 gst-plugins-base
 gst-plugins-good
 gst-plugins-ugly
-gzip
-htop
-inxi
-inkscape
-less
-libisoburn
+
+# ═══════════════════════════════════════════════════════════
+#  ГРАФИКА И ВИДЕО
+# ═══════════════════════════════════════════════════════════
+mesa
+vulkan-icd-loader
 libva
 libva-utils
 libvdpau
+vaapi-amf
+libxvmc
+
+# ═══════════════════════════════════════════════════════════
+#  ДРАЙВЕРЫ ГРАФИКИ (Intel, NVIDIA, AMD)
+# ═══════════════════════════════════════════════════════════
+# Intel
+intel-media-driver
+libva-intel-driver
+intel-gpu-tools
+
+# NVIDIA (все варианты)
+nvidia
+nvidia-utils
+nvidia-settings
+cuda-libs
+
+# AMD
+xf86-video-amdgpu
+libva-mesa-driver
+mesa-vdpau
+amdvlk
+amf-amdappsdk
+
+# ═══════════════════════════════════════════════════════════
+#  ПЕРЕКЛЮЧАТЕЛЬ ВИДЕОКАРТ
+# ═══════════════════════════════════════════════════════════
+switcheroo-control
+
+# ═══════════════════════════════════════════════════════════
+#  МОНИТОРИНГ И СИСТЕМНЫЕ УТИЛИТЫ
+# ═══════════════════════════════════════════════════════════
+btop
+htop
+fastfetch
 lsof
-mesa
-mtools
-nano
-network-manager-applet
-networkmanager
-ntfs-3g
-os-prober
-pavucontrol
-pipewire
-pipewire-alsa
-pipewire-jack
-pipewire-pulse
-python
-reflector
-rclone
-rsync
-sudo
-syslinux
-squashfs-tools
 strace
-timeshift
+inxi
+hwinfo
+dmidecode
+acpi
+sensors
+cpupower
+
+# ═══════════════════════════════════════════════════════════
+#  КОМПРЕССИЯ И АРХИВЫ
+# ═══════════════════════════════════════════════════════════
 unzip
-vim
-vulkan-icd-loader
-wget
-wireplumber
-xdg-desktop-portal-gnome
-xdg-user-dirs
-xorriso
 zip
+gzip
+bzip2
+xz
+file-roller
+libarchive
+
+# ═══════════════════════════════════════════════════════════
+#  ISO, АРХИВИРОВАНИЕ И СИНХРОНИЗАЦИЯ
+# ═══════════════════════════════════════════════════════════
+libisoburn
+xorriso
+archinstall
+timeshift
+rsync
+rclone
+
+# ═══════════════════════════════════════════════════════════
+#  ОСТАЛЬНОЕ
+# ═══════════════════════════════════════════════════════════
+squashfs-tools
+syslinux
+reflector
+bluez
+bluez-utils
+blueman
+firefox
+inkscape
+less
 EOF
 ok "packages.x86_64 created"
 
@@ -228,18 +342,48 @@ Terminal=false
 Categories=System;
 EOF
 
-cat > airootfs/usr/share/applications/lynx-system-update.desktop <<'EOF'
+cat > airootfs/usr/share/applications/lynx-recommended-apps.desktop <<'EOF'
 [Desktop Entry]
 Type=Application
-Name=LynxOS System Update
+Name=LynxOS Recommended Apps
+Name[ru]=Рекомендуемые приложения
+Comment=Install recommended applications for LynxOS
+Comment[ru]=Установить рекомендуемые приложения
+Exec=gnome-terminal -- bash -lc 'lynx-recommended-apps; exec bash'
+Icon=application-x-executable
+Terminal=false
+Categories=System;Settings;
+StartupNotify=true
+EOF
+
+cat > airootfs/usr/share/applications/lynx-github-update.desktop <<'EOF'
+[Desktop Entry]
+Type=Application
+Name=LynxOS GitHub Update
 Name[ru]=Обновление LynxOS
-Comment=Refresh mirrors, upgrade packages and check releases
-Comment[ru]=Обновить зеркала, пакеты и проверить релизы
-Exec=kgx -- bash -lc 'lynx-system-update; exec bash'
+Comment=Check and download updates from GitHub
+Comment[ru]=Проверить и загрузить обновления с GitHub
+Exec=gnome-terminal -- bash -lc 'lynx-github-update; exec bash'
 Icon=software-update-available
 Terminal=false
 Categories=System;Settings;
+StartupNotify=true
 EOF
+
+cat > airootfs/usr/share/applications/lynx-iso-tool.desktop <<'EOF'
+[Desktop Entry]
+Type=Application
+Name=LynxOS ISO Tool
+Name[ru]=Инструмент ISO
+Comment=Manage ISO images - write to USB, test in QEMU
+Comment[ru]=Управление ISO - запись на USB, тестирование в QEMU
+Exec=gnome-terminal -- bash -lc 'lynx-iso-tool; exec bash'
+Icon=media-cdrom
+Terminal=false
+Categories=System;Utilities;
+StartupNotify=true
+EOF
+ok "Application launchers created"
 
 cat > airootfs/etc/skel/Desktop/lynx-system-update.desktop <<'EOF'
 [Desktop Entry]
@@ -328,10 +472,62 @@ grub-mkconfig -o /boot/grub/grub.cfg >/dev/null 2>&1 || true
 xdg-user-dirs-update >/dev/null 2>&1 || true
 dconf update >/dev/null 2>&1 || true
 
+# Запуск рекомендуемых приложений при первой загрузке
+sudo -u liveuser timeout 2 /usr/local/bin/lynx-recommended-apps 2>/dev/null || true
+
 touch /var/lib/lynx-firstboot-done
 systemctl disable lynx-firstboot.service >/dev/null 2>&1 || true
 echo "First boot tasks completed."
 EOF
+
+cat > airootfs/usr/local/bin/lynx-recommended-apps << 'APPEOF'
+#!/bin/bash
+set -euo pipefail
+STATE_DIR="${HOME}/.local/share/lynxos"
+RECOMMENDED_SHOWN_FILE="${STATE_DIR}/recommended-shown"
+mkdir -p "$STATE_DIR"
+if [ -f "$RECOMMENDED_SHOWN_FILE" ]; then
+    exit 0
+fi
+command -v zenity &>/dev/null || sudo pacman -S --noconfirm zenity >/dev/null 2>&1 || exit 0
+zenity --info \
+    --title="LynxOS — Добро пожаловать! 🎉" \
+    --text="Добро пожаловать в LynxOS!\n\nВы можете установить дополнительные приложения.\n\nОткройте 'Рекомендуемые приложения' из меню." \
+    --width=400 --height=200 2>/dev/null || true
+touch "$RECOMMENDED_SHOWN_FILE"
+APPEOF
+
+cat > airootfs/usr/local/bin/lynx-github-update << 'GHEOF'
+#!/bin/bash
+set -euo pipefail
+REPO="${LYNXOS_REPO:-Dai56764/lynxOs-manifest}"
+CACHE_DIR="${HOME}/.cache/lynxos"
+STATE_DIR="${HOME}/.local/share/lynxos"
+mkdir -p "$CACHE_DIR" "$STATE_DIR"
+echo "LynxOS GitHub Update Tool"
+echo "Repository: $REPO"
+echo ""
+echo "Available commands:"
+echo "  lynx-github-update fetch     - Fetch release info"
+echo "  lynx-github-update list      - List available releases"
+echo "  lynx-github-update download  - Download latest ISO"
+echo "  lynx-github-update apply FILE - Apply ISO/archive update"
+echo ""
+echo "For more info: https://github.com/$REPO"
+GHEOF
+
+cat > airootfs/usr/local/bin/lynx-iso-tool << 'ISOEOF'
+#!/bin/bash
+set -euo pipefail
+echo "LynxOS ISO Tool"
+echo ""
+echo "Available commands:"
+echo "  lynx-iso-tool list-usb      - List USB devices"
+echo "  lynx-iso-tool write-dd ISO DEV - Write ISO to USB"
+echo "  lynx-iso-tool test-qemu ISO   - Test ISO in QEMU"
+echo "  lynx-iso-tool info ISO        - Show ISO info"
+echo ""
+ISOEOF
 ok "Helper scripts created"
 
 cat > airootfs/etc/systemd/system/lynx-gpu-setup.service <<'EOF'
@@ -395,6 +591,17 @@ chmod +x /home/liveuser/Desktop/install-lynxos.desktop 2>/dev/null || true
 chmod +x /home/liveuser/Desktop/lynx-system-update.desktop 2>/dev/null || true
 chmod +x /etc/skel/Desktop/install-lynxos.desktop 2>/dev/null || true
 chmod +x /etc/skel/Desktop/lynx-system-update.desktop 2>/dev/null || true
+
+# Добавление новых скриптов инструментов
+if [ -f "/usr/local/bin/lynx-recommended-apps" ]; then
+  chmod +x /usr/local/bin/lynx-recommended-apps
+fi
+if [ -f "/usr/local/bin/lynx-github-update" ]; then
+  chmod +x /usr/local/bin/lynx-github-update
+fi
+if [ -f "/usr/local/bin/lynx-iso-tool" ]; then
+  chmod +x /usr/local/bin/lynx-iso-tool
+fi
 
 if [ "${ENABLE_AUR}" = "true" ]; then
   echo "==> Building optional AUR packages"
